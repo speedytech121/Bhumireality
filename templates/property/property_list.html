@@ -1,0 +1,57 @@
+{% extends "index.html" %}
+{% load custom_filters %}
+{% load static %}
+{% block content %}
+<!-- Nav Starts -->
+{% include "includes/navbar.html" %}
+{% if properties %}
+<section class="ftco-section ftco-no-pt bg-white" style="margin-top:2%">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 heading-section text-start ftco-animate">
+				<h2 class="mb-2 text-center" style="font-family: 'Nunito', sans-serif;font-weight: 900;">Properties</h2>
+			</div>
+		</div>
+	</div>
+    <div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+    <!-- Cards -->
+    <div class="row">
+        <!-- Individual card example -->
+        {% for property in properties %}
+        <div class="col-md-12 mb-4 mt-2">
+            <div class="card">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="{{property.main_photo.url}}" class="card-img" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h4 class="card-title">{{property.property_name}}</h4>
+                            <h6 style="color:{% if property.availability == 'sold_out' %}red {% else %}green{% endif %}">{{property.availability|upper|replace_underscores}}</h6>
+                            <h6>Address : {{property.address}}</h6>
+                            <h6>Plot Size : {{property.square_footage}}</h6>
+                            <h6>Price : {{property.price}}</h6> 
+                            <a href="{% url 'assets:property_detail' property.id %}" class="btn btn-primary">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+    </div>
+</div>
+    </div>
+</section>
+{% else %}
+<div class="container text-center my-5">
+    <h1>No Data Available</h1>
+    <p class="lead">Sorry, there is no data to display.</p>
+    <a href="{% url 'home:home_view' %}" class="btn btn-primary">Go Back</a>
+  </div>
+{% endif %}
+{% endblock content %}
